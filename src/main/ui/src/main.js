@@ -1,7 +1,17 @@
-import { createApp } from 'vue'
+// import Vue, {createApp} from 'vue'
+// import App from './App.vue'
+// import { BootstrapVue } from 'bootstrap-vue'
+// Vue.use(BootstrapVue);
+// createApp(App).mount('#app')
+import Vue from 'vue'
 import App from './App.vue'
 import { BootstrapVue } from 'bootstrap-vue'
 
-createApp(App).mount('#app')
+
+Vue.config.productionTip = false
+
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
 
 Vue.use(BootstrapVue);

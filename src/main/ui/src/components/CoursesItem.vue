@@ -9,7 +9,7 @@
             </thead>
             <tbody>
               <tr v-for="item in courses" :key="item.id">
-                  <td>{{ item.id }}</td>
+                  <td>{{ item.name }}</td>
               </tr>
             </tbody>
         </table>
@@ -19,7 +19,7 @@
 <script>
 
     export default {
-        name: 'Courses',
+        name: 'CoursesItem',
         props: ['courses']
      }
 </script>

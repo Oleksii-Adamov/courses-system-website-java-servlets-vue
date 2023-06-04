@@ -1,15 +1,15 @@
 <template>
 <div>
-  <Courses :courses="courses"/>
+  <CoursesItem :courses="courses"/>
 </div>
 </template>
 
 <script>
 import {getStudentCourses} from '@/services/CourseService'
-import Courses from "@/components/Courses";
+import CoursesItem from "@/components/CoursesItem";
 export default {
-  name: "StudentCourses",
-  components: {Courses},
+  name: "StudentCoursesPage",
+  components: {CoursesItem},
   data() {
     return {
       courses: []
