@@ -12,10 +12,9 @@ import java.io.PrintWriter;
 import java.util.regex.Pattern;
 
 
-//@WebServlet("/api")
 public abstract class AbstractController extends HttpServlet {
 
-    //protected static final Logger logger = LogManager.getLogger(AbstractController.class);
+    protected static final Logger logger = LogManager.getLogger(AbstractController.class);
     protected HttpServletRequest req;
     protected HttpServletResponse resp;
 

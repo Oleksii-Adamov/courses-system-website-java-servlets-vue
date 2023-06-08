@@ -1,18 +1,23 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-  <StudentCoursesPage/>
+<!--  <StudentCoursesPage/>-->
+<!--  <div></div>-->
+<router-view></router-view>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import StudentCoursesPage from "@/pages/StudentCoursesPage";
+//import StudentCoursesPage from "@/pages/StudentCoursesPage";
 
 export default {
   name: 'App',
-  components: {
-    StudentCoursesPage,
-    // HelloWorld
+  // components: {
+  // //  StudentCoursesPage,
+  //   // HelloWorld
+  // }
+  mounted() {
+    //this.$router.push({ path: '/choose-role' });
   }
 }
 </script>

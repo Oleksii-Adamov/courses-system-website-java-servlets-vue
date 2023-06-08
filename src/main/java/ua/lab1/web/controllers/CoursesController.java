@@ -11,21 +11,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-//@WebServlet(value = "/api")
 public class CoursesController extends AbstractController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-//        try(PrintWriter pr = resp.getWriter()) {
-//            pr.println("<HTML>");
-//            pr.println("<BODY>");
-//            pr.println("HELLO!");
-//            pr.println("</body>");
-//            pr.println("</html>");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        logger.info("CoursesController doGet() called");
-//        System.out.println("got request");
         try {
             processRequest(req, resp);
             if (getMapping("/student-courses")) {
@@ -33,12 +21,22 @@ public class CoursesController extends AbstractController {
                 courses.add(new Course(1, "Test course1"));
                 courses.add(new Course(2, "Test course2"));
                 String coursesJsonString = new Gson().toJson(courses);
-                System.out.println(coursesJsonString);
-                out.print(coursesJsonString);
-                out.flush();
+                this.out.print(coursesJsonString);
+                logger.info("response from /student-courses :" + coursesJsonString);
             }
+//            if (getMapping("/teacher-courses")) {
+//                List<Course> courses = new ArrayList<>();
+//                courses.add(new Course(3, "Teacher course3"));
+//                courses.add(new Course(4, "Teacher course4"));
+//                String coursesJsonString = new Gson().toJson(courses);
+//                this.out.print(coursesJsonString);
+//                logger.info("response from /teacher-courses :" + coursesJsonString);
+//            }
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
+        this.out.flush();
     }
 }
