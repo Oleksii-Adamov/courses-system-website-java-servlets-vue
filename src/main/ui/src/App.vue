@@ -7,18 +7,11 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-//import StudentCoursesPage from "@/pages/StudentCoursesPage";
 
 export default {
   name: 'App',
   // components: {
-  // //  StudentCoursesPage,
-  //   // HelloWorld
   // }
-  mounted() {
-    //this.$router.push({ path: '/choose-role' });
-  }
 }
 </script>
 
