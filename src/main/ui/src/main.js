@@ -15,6 +15,8 @@ let initOptions = {
 
 let keycloak = new Keycloak(initOptions);
 
+//let realm = keycloak.realm(realm);
+
 keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
 
     if(!auth) {
@@ -34,15 +36,15 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     }).$mount('#app')
 
     Vue.use(BootstrapVue);
-
-    // TODO: Maybe dont store the token in the localstore, rather use it direct from the keycloak.token object
-    //localStorage.setItem("vue-token", keycloak.token);
-    //localStorage.setItem("vue-refresh-token", keycloak.refreshToken);
+    //console.log(keycloak.realm('CoursesRealm'))
+    //.users().get('6fd45d53-4296-4f53-b34e-b62356c6dc8a')
+    localStorage.setItem("user-token", keycloak.token);
 
     setInterval(() =>{
         keycloak.updateToken(70).success((refreshed)=>{
             if (refreshed) {
                 console.log("Token refreshed");
+                localStorage.setItem("user-token", keycloak.token);
             } else {
                 console.log('Token not refreshed, valid for '
                     + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');

@@ -2,6 +2,8 @@ package ua.lab1.web.controllers;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ua.lab1.web.security.KeycloakSecurityService;
+import ua.lab1.web.security.SecurityService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,7 @@ public abstract class AbstractController extends HttpServlet {
 
     protected PrintWriter out;
 
+    protected static SecurityService securityService = new KeycloakSecurityService();
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.req = req;
         this.resp = resp;
