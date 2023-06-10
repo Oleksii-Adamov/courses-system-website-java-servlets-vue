@@ -5,6 +5,7 @@ import App from './App.vue'
 import { BootstrapVue } from 'bootstrap-vue'
 import Keycloak from 'keycloak-js';
 import Routes from './routes'
+import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
 
@@ -29,13 +30,17 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
     const router = new VueRouter({
         routes: Routes,
         mode: 'history'
-    })
+    });
+
+    Vue.use(VueResource);
+
     new Vue({
         router,
         render: h => h(App),
     }).$mount('#app')
 
     Vue.use(BootstrapVue);
+
     //console.log(keycloak.realm('CoursesRealm'))
     //.users().get('6fd45d53-4296-4f53-b34e-b62356c6dc8a')
     localStorage.setItem("user-token", keycloak.token);

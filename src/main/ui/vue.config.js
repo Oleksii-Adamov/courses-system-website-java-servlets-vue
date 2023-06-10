@@ -7,8 +7,10 @@ module.exports = {
     proxy: {
       '^/api': {
         target: 'http://localhost:3000/Lab1',
-        changeOrigin: true
+        changeOrigin: true,
+        logLevel: 'debug'
       },
     }
+    // proxy: 'http://localhost:3000/Lab1'
   }
 }
