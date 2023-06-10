@@ -24,8 +24,9 @@ public class CoursesController extends AbstractController {
                 this.out.print(coursesJsonString);
                 logger.info("response from /student-courses :" + coursesJsonString);
                 logger.info("trying to change role");
-                securityService.addRoleToUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "Teacher");
-                securityService.removeRoleFromUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "NoRole");
+                //securityService.addRoleToUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "Teacher");
+                //securityService.removeRoleFromUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "NoRole");
+                securityService.giveUserTeacherRole("6fd45d53-4296-4f53-b34e-b62356c6dc8a");
             }
 //            if (getMapping("/teacher-courses")) {
 //                List<Course> courses = new ArrayList<>();
