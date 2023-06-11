@@ -15,7 +15,7 @@ let initOptions = {
 }
 
 let keycloak = new Keycloak(initOptions);
-
+localStorage.setItem("keycloak", keycloak);
 //let realm = keycloak.realm(realm);
 
 keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
@@ -55,7 +55,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
                     + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
             }
         }).error(()=>{
-            console.error("Authenticated");
+            console.error("Refresh token error");
         });
 
 
@@ -64,3 +64,4 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
 }).error(() =>{
     console.error("Authentication Failed");
 });
+export default keycloak;

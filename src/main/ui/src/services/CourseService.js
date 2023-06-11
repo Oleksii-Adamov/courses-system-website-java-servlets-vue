@@ -3,3 +3,8 @@ export async function getStudentCourses() {
     console.log(response.status);
     return response.json();
 }
+export async function getTeacherCourses() {
+    const response = await fetch('/api/courses/teacher-courses');
+    console.log(response.status);
+    return response.json();
+}

@@ -23,19 +23,15 @@ public class CoursesController extends AbstractController {
                 String coursesJsonString = new Gson().toJson(courses);
                 this.out.print(coursesJsonString);
                 logger.info("response from /student-courses :" + coursesJsonString);
-//                logger.info("trying to change role");
-                //securityService.addRoleToUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "Teacher");
-                //securityService.removeRoleFromUserWithId("6fd45d53-4296-4f53-b34e-b62356c6dc8a", "NoRole");
-//                securityService.giveUserTeacherRole("6fd45d53-4296-4f53-b34e-b62356c6dc8a");
             }
-//            if (getMapping("/teacher-courses")) {
-//                List<Course> courses = new ArrayList<>();
-//                courses.add(new Course(3, "Teacher course3"));
-//                courses.add(new Course(4, "Teacher course4"));
-//                String coursesJsonString = new Gson().toJson(courses);
-//                this.out.print(coursesJsonString);
-//                logger.info("response from /teacher-courses :" + coursesJsonString);
-//            }
+            if (getMapping("/teacher-courses")) {
+                List<Course> courses = new ArrayList<>();
+                courses.add(new Course(3, "Teacher course3"));
+                courses.add(new Course(4, "Teacher course4"));
+                String coursesJsonString = new Gson().toJson(courses);
+                this.out.print(coursesJsonString);
+                logger.info("response from /teacher-courses :" + coursesJsonString);
+            }
 
         } catch (Exception e) {
             //System.out.println(e.getMessage());

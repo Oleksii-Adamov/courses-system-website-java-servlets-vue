@@ -25,8 +25,13 @@ public class UserController extends AbstractController {
                         success = securityService.giveUserStudentRole(userId);
                     }
                 }
-                if (success) resp.setStatus(200);
-                else resp.setStatus(500);
+                if (success) {
+                    logger.info("add role to user " + userId);
+                }
+                else {
+                    logger.error("error when adding role to user" + userId);
+                }
+                resp.sendRedirect("http://localhost:8081/");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
