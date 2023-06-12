@@ -22,7 +22,6 @@ public abstract class AbstractController extends HttpServlet {
 
     protected PrintWriter out;
 
-    protected static SecurityService securityService = new KeycloakSecurityService();
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.req = req;
         this.resp = resp;

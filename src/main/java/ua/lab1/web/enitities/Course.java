@@ -2,6 +2,23 @@ package ua.lab1.web.enitities;
 
 public class Course implements Entity {
 
+    private Integer id;
+    private String name;
+
+    private String teacherId;
+    private Integer maxGrade;
+
+
+    public Course() {
+    }
+
+    public Course(int id, String name, String teacherId, int maxGrade) {
+        this.id = id;
+        this.name = name;
+        this.teacherId = teacherId;
+        this.maxGrade = maxGrade;
+    }
+
     public int getId() {
         return id;
     }
@@ -9,9 +26,6 @@ public class Course implements Entity {
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
-    private String name;
 
     public String getName() {
         return name;
@@ -21,9 +35,19 @@ public class Course implements Entity {
         this.name = name;
     }
 
+    public String getTeacherId() {
+        return teacherId;
+    }
 
-    public Course(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public int getMaxGrade() {
+        return maxGrade;
+    }
+
+    public void setMaxGrade(int maxGrade) {
+        this.maxGrade = maxGrade;
     }
 }

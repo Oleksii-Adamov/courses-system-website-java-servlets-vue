@@ -18,16 +18,16 @@ public class CoursesController extends AbstractController {
             processRequest(req, resp);
             if (getMapping("/student-courses")) {
                 List<Course> courses = new ArrayList<>();
-                courses.add(new Course(1, "Test course1"));
-                courses.add(new Course(2, "Test course2"));
+//                courses.add(new Course(1, "Test course1", 100));
+//                courses.add(new Course(2, "Test course2", 100));
                 String coursesJsonString = new Gson().toJson(courses);
                 this.out.print(coursesJsonString);
                 logger.info("response from /student-courses :" + coursesJsonString);
             }
             if (getMapping("/teacher-courses")) {
                 List<Course> courses = new ArrayList<>();
-                courses.add(new Course(3, "Teacher course3"));
-                courses.add(new Course(4, "Teacher course4"));
+//                courses.add(new Course(3, "Teacher course3", 100));
+//                courses.add(new Course(4, "Teacher course4", 100));
                 String coursesJsonString = new Gson().toJson(courses);
                 this.out.print(coursesJsonString);
                 logger.info("response from /teacher-courses :" + coursesJsonString);

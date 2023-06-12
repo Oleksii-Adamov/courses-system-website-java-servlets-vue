@@ -4,6 +4,7 @@ package ua.lab1.web.security;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ public class KeycloakSecurityService implements SecurityService{
         // default constructor
     }
 
-    private String getAdminToken() throws IOException, InterruptedException, RuntimeException {
+    private String getAdminToken() throws IOException, InterruptedException, KeycloakSecurityServiceException {
         Map<String, String> formData = new HashMap<>();
         formData.put("username", "admin");
         formData.put("password", "root");
@@ -44,12 +45,12 @@ public class KeycloakSecurityService implements SecurityService{
             return accessToken;
         }
         else {
-            throw new RuntimeException("cannot login as admin to keycloak");
+            throw new KeycloakSecurityServiceException("cannot login as admin to keycloak");
         }
     }
 
     @Override
-    public boolean giveUserTeacherRole(String userId) {
+    public void giveUserTeacherRole(String userId) {
         try {
             String accessToken = getAdminToken();
             String teacherRoleRepresantation = "[{\"id\":\"db7c7ece-dd60-48d6-849a-790b062cba39\",\"name\":\"Teacher\",\"description\":\"\",\"composite\":false,\"clientRole\":false,\"containerId\":\"1e290e5d-4fcc-44ff-af1b-2629cfa69905\"}]";
@@ -61,19 +62,18 @@ public class KeycloakSecurityService implements SecurityService{
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.info("giveUserTeacherRole response code: " + response.statusCode());
-            return response.statusCode() == 204;
-
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             logger.error(e.getMessage());
-        } catch (IOException | RuntimeException e) {
+            throw new KeycloakSecurityServiceException(e);
+        } catch (IOException | KeycloakSecurityServiceException e) {
             logger.error(e.getMessage());
+            throw new KeycloakSecurityServiceException(e);
         }
-        return false;
     }
 
     @Override
-    public boolean giveUserStudentRole(String userId) {
+    public void giveUserStudentRole(String userId) {
         try {
             String accessToken = getAdminToken();
             String studentRoleRepresantation = "[{\"id\":\"5b4f5c42-7de6-45b7-a818-085e8adfcd07\",\"name\":\"Student\",\"description\":\"\",\"composite\":false,\"clientRole\":false,\"containerId\":\"1e290e5d-4fcc-44ff-af1b-2629cfa69905\"}]";
@@ -85,14 +85,14 @@ public class KeycloakSecurityService implements SecurityService{
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             logger.info("giveUserStudentRole response code: " + response.statusCode());
-            return response.statusCode() == 204;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             logger.error(e.getMessage());
+            throw new KeycloakSecurityServiceException(e);
         } catch (IOException e) {
             logger.error(e.getMessage());
+            throw new KeycloakSecurityServiceException(e);
         }
-        return false;
     }
 
     private static String getFormDataAsString(Map<String, String> formData) {

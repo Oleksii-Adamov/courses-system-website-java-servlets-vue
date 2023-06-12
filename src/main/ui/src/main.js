@@ -41,10 +41,8 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) =>{
 
     Vue.use(BootstrapVue);
 
-    //console.log(keycloak.realm('CoursesRealm'))
-    //.users().get('6fd45d53-4296-4f53-b34e-b62356c6dc8a')
     localStorage.setItem("user-token", keycloak.token);
-
+    console.log(keycloak.token);
     setInterval(() =>{
         keycloak.updateToken(70).success((refreshed)=>{
             if (refreshed) {

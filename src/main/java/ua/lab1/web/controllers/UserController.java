@@ -2,13 +2,19 @@ package ua.lab1.web.controllers;
 
 import com.google.gson.Gson;
 import ua.lab1.web.enitities.Course;
+import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
+import ua.lab1.web.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends AbstractController {
+
+    private final static UserService userService = new UserService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
@@ -16,25 +22,43 @@ public class UserController extends AbstractController {
             if (getMapping("/add-role")) {
                 logger.info("trying to change role");
                 String role =  req.getParameter("role");
-                String userId = req.getParameter("userId");
-                boolean success = false;
-                if (role != null && userId != null) {
-                    if ("Teacher".equals(role)) {
-                        success = securityService.giveUserTeacherRole(userId);
-                    } else if ("Student".equals(role)) {
-                        success = securityService.giveUserStudentRole(userId);
-                    }
+                //String userId = req.getParameter("userId");
+                String userId = (String) req.getAttribute("userId");
+                String fullName = (String) req.getAttribute("fullName");
+                // validation
+                if (!("Teacher".equals(role) || "Student".equals(role))) {
+                    resp.setStatus(400);
+                    // response message invalid role
                 }
-                if (success) {
-                    logger.info("add role to user " + userId);
+                else if (userId == null || userId.length() != 36) {
+                    resp.setStatus(400);
+                    // response message invalid userId
                 }
                 else {
-                    logger.error("error when adding role to user" + userId);
+                    boolean success = true;
+                    try {
+                        userService.addRole(userId, fullName, role);
+                    } catch (KeycloakSecurityServiceException | SQLException e) {
+                        logger.error(e.getMessage());
+                        success = false;
+                    }
+
+                    if (success) {
+                        logger.info("added role to user " + userId);
+                        resp.sendRedirect("http://localhost:8081/");
+                    }
+                    else {
+                        //logger.error("error when adding role to user" + userId);
+                        resp.setStatus(500);
+                        // response message "error when adding role to user"
+                    }
+
                 }
-                resp.sendRedirect("http://localhost:8081/");
+
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error(e.getMessage());
+            resp.setStatus(500);
         }
         this.out.flush();
     }
