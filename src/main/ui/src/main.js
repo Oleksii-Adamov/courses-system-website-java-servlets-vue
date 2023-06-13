@@ -12,4 +12,3 @@ let keycloakInitOptions = {
 let keycloak = new Keycloak(keycloakInitOptions);
 export default keycloak;
 initKeycloak();
-// localStorage.setItem("keycloak", keycloak);

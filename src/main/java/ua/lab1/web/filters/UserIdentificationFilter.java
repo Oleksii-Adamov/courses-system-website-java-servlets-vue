@@ -29,8 +29,8 @@ public class UserIdentificationFilter implements Filter {
             String token = authorizationHeader.substring("Bearer ".length());
             try {
                 final DecodedJWT jwt = JWT.decode(token);
-                logger.info(jwt.getClaim("sub"));
-                logger.info(jwt.getClaim("name"));
+                logger.info(jwt.getClaim("sub").asString());
+                logger.info(jwt.getClaim("name").asString());
                 httpRequest.setAttribute("userId", jwt.getClaim("sub").asString());
                 httpRequest.setAttribute("fullName", jwt.getClaim("name").asString());
                 chain.doFilter(httpRequest, httpResponse);

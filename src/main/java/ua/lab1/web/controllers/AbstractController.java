@@ -2,10 +2,7 @@ package ua.lab1.web.controllers;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ua.lab1.web.security.KeycloakSecurityService;
-import ua.lab1.web.security.SecurityService;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,12 +17,12 @@ public abstract class AbstractController extends HttpServlet {
     protected HttpServletRequest req;
     protected HttpServletResponse resp;
 
-    protected PrintWriter out;
+    protected PrintWriter responseOut;
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         this.req = req;
         this.resp = resp;
-        this.out = resp.getWriter();
+        this.responseOut = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
     }

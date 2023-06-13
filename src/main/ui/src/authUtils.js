@@ -57,23 +57,6 @@ export function initKeycloak() {
 
         }, 60000);
 
-        // setInterval(() =>{
-        //     keycloak.updateToken(70).success((refreshed)=>{
-        //         if (refreshed) {
-        //             console.log("Token refreshed");
-        //             localStorage.setItem("user-token", keycloak.token);
-        //             console.log(keycloak.token);
-        //         } else {
-        //             console.log('Token not refreshed, valid for '
-        //                 + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-        //         }
-        //     }).error(()=>{
-        //         console.error("Refresh token error");
-        //     });
-        //
-        //
-        // }, 60000)
-
     }).error(() =>{
         console.error("Authentication Failed");
     });
@@ -92,38 +75,6 @@ export async function authorizationHeaders() {
     console.log("Sending ", localStorage.getItem('user-token'));
     return headers;
 }
-// export async function forciblyRefreshToken() {
-//     await whenTokenNotUndefined();
-//     //localStorage.setItem('user-token', undefined);
-//     keycloak.updateToken(-1).then((refreshed)=>{
-//         if (refreshed) {
-//             console.log("Token forcibly refreshed");
-//             localStorage.setItem("user-token", keycloak.token);
-//             //bus.emit('unlocked');
-//             let decoded_user_token = jwt_decode(keycloak.token);
-//             console.log(decoded_user_token);
-//             if (decoded_user_token['realm_access']['roles'].includes('Teacher')) {
-//                 this.$router.push({ path: '/teacher-courses' });
-//             }
-//             else if (decoded_user_token['realm_access']['roles'].includes('Student')) {
-//                 this.$router.push({ path: '/student-courses' });
-//             }
-//             else {
-//                 this.$router.push({ path: '/choose-role' });
-//             }
-//         } else {
-//             console.error('Token not forcibly refreshed');
-//             this.$router.push({ path: '/' });
-//         }
-//
-//     }).catch(()=>{
-//         console.error("Force refresh token error");
-//         // this.$router.push({ path: '/' });
-//         //window.location.reload();
-//     });
-//
-// }
-//
-// function getUserId() {
-//     return jwt_decode(localStorage.getItem('user-token'))['sub'];
-// }
+export function logout() {
+    keycloak.logout({redirectUri: 'http://localhost:8081/'});
+}

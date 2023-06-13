@@ -1,7 +1,5 @@
 package ua.lab1.web.controllers;
 
-import com.google.gson.Gson;
-import ua.lab1.web.enitities.Course;
 import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
 import ua.lab1.web.services.UserService;
 
@@ -9,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserController extends AbstractController {
 
@@ -55,7 +51,7 @@ public class UserController extends AbstractController {
                         logger.info("added role to user " + userId);
 //                        resp.sendRedirect("http://localhost:8081/");
                         resp.setStatus(200);
-                        this.out.flush();
+                        this.responseOut.flush();
                     }
                     else {
                         logger.error("Error when adding role to user " + userId);
@@ -70,6 +66,6 @@ public class UserController extends AbstractController {
             logger.error(e.getMessage());
             resp.setStatus(500);
         }
-        this.out.flush();
+        this.responseOut.flush();
     }
 }

@@ -18,6 +18,10 @@ public class TransactionConnection {
         return con.prepareStatement(sql);
     }
 
+    public PreparedStatement preparedStatement(String sql, int option) throws SQLException {
+        return con.prepareStatement(sql, option);
+    }
+
     Connection getConnection() {
         return con;
     }
