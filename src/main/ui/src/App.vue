@@ -10,6 +10,9 @@
 
 export default {
   name: 'App',
+  beforeMount() {
+    // localStorage.setItem("user-token", undefined);
+  }
   // components: {
   // }
 }

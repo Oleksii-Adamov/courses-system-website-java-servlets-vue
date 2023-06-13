@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserController extends AbstractController {
 
-    private final static UserService userService = new UserService();
+    private static final UserService userService = new UserService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
@@ -27,12 +27,10 @@ public class UserController extends AbstractController {
                 String fullName = (String) req.getAttribute("fullName");
                 // validation
                 if (!("Teacher".equals(role) || "Student".equals(role))) {
-                    resp.setStatus(400);
-                    // response message invalid role
+                    resp.sendError(400, "Invalid parameter role");
                 }
-                else if (userId == null || userId.length() != 36) {
-                    resp.setStatus(400);
-                    // response message invalid userId
+                else if (userId == null || userId.length() != 36 || fullName == null) {
+                    resp.sendError(500, "Something wrong with userId or fullName");
                 }
                 else {
                     boolean success = true;
@@ -48,9 +46,8 @@ public class UserController extends AbstractController {
                         resp.sendRedirect("http://localhost:8081/");
                     }
                     else {
-                        //logger.error("error when adding role to user" + userId);
-                        resp.setStatus(500);
-                        // response message "error when adding role to user"
+                        resp.setContentType("text/html");
+                        resp.sendError(500, "Error when adding role to user");
                     }
 
                 }
