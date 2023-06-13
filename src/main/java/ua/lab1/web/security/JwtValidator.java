@@ -32,19 +32,15 @@ public class JwtValidator {
     }
 
     public void validate(String token) throws JWTDecodeException, JwkException, MalformedURLException, InvalidParameterException {
-        try {
-            final DecodedJWT jwt = JWT.decode(token);
-            if (!allowedIssuers.contains(jwt.getIssuer())) {
-                throw new InvalidParameterException(String.format("Unknown Issuer %s", jwt.getIssuer()));
-            }
-            RSAPublicKey publicKey = loadPublicKey(jwt);
-            Algorithm algorithm = Algorithm.RSA256(publicKey, null);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(jwt.getIssuer())
-                    .build();
-            verifier.verify(token);
-        } catch (Exception e) {
-            e.printStackTrace();
+        final DecodedJWT jwt = JWT.decode(token);
+        if (!allowedIssuers.contains(jwt.getIssuer())) {
+            throw new InvalidParameterException(String.format("Unknown Issuer %s", jwt.getIssuer()));
         }
+        RSAPublicKey publicKey = loadPublicKey(jwt);
+        Algorithm algorithm = Algorithm.RSA256(publicKey, null);
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer(jwt.getIssuer())
+                .build();
+        verifier.verify(token);
     }
 }

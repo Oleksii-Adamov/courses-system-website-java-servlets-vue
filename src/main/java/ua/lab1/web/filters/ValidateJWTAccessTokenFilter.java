@@ -41,18 +41,24 @@ public class ValidateJWTAccessTokenFilter implements Filter {
                     logger.info("ValidateJWTAccessTokenFilter: token is valid");
                     chain.doFilter(httpRequest, httpResponse);
                 }
-                catch (JWTDecodeException e) {
-                    logger.error("Invalid access token structure");
-                    httpResponse.sendError(401, e.getMessage());
-                }
-                catch (InvalidParameterException e) {
+                catch (Exception e) {
                     logger.error(e.getMessage());
+                    System.out.println("Sending error");
                     httpResponse.sendError(401, e.getMessage());
+                    System.out.println("End of catch");
                 }
-                catch (JwkException | MalformedURLException e) {
-                    logger.error(e.getMessage());
-                    httpResponse.sendError(401, "Invalid access token");
-                }
+//                catch (JWTDecodeException e) {
+//                    logger.error("Invalid access token structure");
+//                    httpResponse.sendError(401, e.getMessage());
+//                }
+//                catch (InvalidParameterException e) {
+//                    logger.error(e.getMessage());
+//                    httpResponse.sendError(401, e.getMessage());
+//                }
+//                catch (JwkException | MalformedURLException e) {
+//                    logger.error(e.getMessage());
+//                    httpResponse.sendError(401, "Invalid access token");
+//                }
             }
         }
         else {

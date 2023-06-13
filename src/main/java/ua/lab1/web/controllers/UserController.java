@@ -22,19 +22,29 @@ public class UserController extends AbstractController {
             if (getMapping("/add-role")) {
                 logger.info("trying to change role");
                 String role =  req.getParameter("role");
+                System.out.println(role);
                 //String userId = req.getParameter("userId");
                 String userId = (String) req.getAttribute("userId");
+                System.out.println(userId);
                 String fullName = (String) req.getAttribute("fullName");
+                System.out.println(fullName);
                 // validation
                 if (!("Teacher".equals(role) || "Student".equals(role))) {
+                    logger.info("Invalid parameter role");
                     resp.sendError(400, "Invalid parameter role");
                 }
                 else if (userId == null || userId.length() != 36 || fullName == null) {
+                    logger.info("Something wrong with userId or fullName");
+                    System.out.println(userId == null);
+                    System.out.println(userId.length());
+                    System.out.println(userId.length() != 36);
+                    System.out.println(fullName == null);
                     resp.sendError(500, "Something wrong with userId or fullName");
                 }
                 else {
                     boolean success = true;
                     try {
+                        System.out.println("calling userService");
                         userService.addRole(userId, fullName, role);
                     } catch (KeycloakSecurityServiceException | SQLException e) {
                         logger.error(e.getMessage());
@@ -43,9 +53,12 @@ public class UserController extends AbstractController {
 
                     if (success) {
                         logger.info("added role to user " + userId);
-                        resp.sendRedirect("http://localhost:8081/");
+//                        resp.sendRedirect("http://localhost:8081/");
+                        resp.setStatus(200);
+                        this.out.flush();
                     }
                     else {
+                        logger.error("Error when adding role to user " + userId);
                         resp.setContentType("text/html");
                         resp.sendError(500, "Error when adding role to user");
                     }

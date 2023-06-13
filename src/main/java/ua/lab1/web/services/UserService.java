@@ -14,14 +14,24 @@ public class UserService {
     private static final SecurityService securityService = new KeycloakSecurityService();
     public void addRole(String userId, String fullName, String role) throws SQLException, KeycloakSecurityServiceException {
         if ("Teacher".equals(role)) {
-            securityService.giveUserTeacherRole(userId);
             TransactionFactory.getInstance().beginTransaction();
-            DAOFactory.getInstance().getTeacherDAO().create(new Teacher(userId, fullName));
+            try {
+                DAOFactory.getInstance().getTeacherDAO().create(new Teacher(userId, fullName));
+                securityService.giveUserTeacherRole(userId);
+            } catch (KeycloakSecurityServiceException | SQLException e) {
+                TransactionFactory.getInstance().rollbackTransaction();
+                throw e;
+            }
             TransactionFactory.getInstance().endTransaction();
         } else {
-            securityService.giveUserStudentRole(userId);
             TransactionFactory.getInstance().beginTransaction();
-            DAOFactory.getInstance().getStudentDAO().create(new Student(userId, fullName));
+            try {
+                DAOFactory.getInstance().getStudentDAO().create(new Student(userId, fullName));
+                securityService.giveUserStudentRole(userId);
+            } catch (KeycloakSecurityServiceException | SQLException e) {
+                TransactionFactory.getInstance().rollbackTransaction();
+                throw e;
+            }
             TransactionFactory.getInstance().endTransaction();
         }
     }

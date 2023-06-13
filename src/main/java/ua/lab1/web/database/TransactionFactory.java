@@ -39,15 +39,32 @@ public class TransactionFactory {
         if(threadLocalTransactionConnection.get() == null){
             throw new TransactionException("transaction cannot be finished");
         }
-        TransactionConnection connectionWrap = threadLocalTransactionConnection.get();
+        TransactionConnection transactionConnection = threadLocalTransactionConnection.get();
         threadLocalTransactionConnection.set(null);
-        Connection con = connectionWrap.getConnection();
+        Connection con = transactionConnection.getConnection();
         try {
             con.commit();
         } catch (SQLException e) {
             con.rollback();
             throw new TransactionException(e);
         }finally {
+            con.close();
+        }
+    }
+
+    public void rollbackTransaction() throws SQLException {
+        if(threadLocalTransactionConnection.get() == null){
+            throw new TransactionException("transaction cannot be finished");
+        }
+        TransactionConnection transactionConnection = threadLocalTransactionConnection.get();
+        threadLocalTransactionConnection.set(null);
+        Connection con = transactionConnection.getConnection();
+        try {
+            con.rollback();
+        }
+        catch (SQLException e) {
+            throw new TransactionException(e);
+        } finally {
             con.close();
         }
     }

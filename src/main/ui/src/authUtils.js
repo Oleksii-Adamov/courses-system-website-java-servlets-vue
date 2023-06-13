@@ -41,23 +41,21 @@ export function initKeycloak() {
 
         setInterval(() =>{
             whenTokenNotUndefined().then( () => {
-                localStorage.setItem("user-token", undefined);
-                keycloak.updateToken(70).success((refreshed) => {
+                keycloak.updateToken(70).then((refreshed) => {
                     if (refreshed) {
-                        console.log("Token refreshed");
                         localStorage.setItem("user-token", keycloak.token);
-                        bus.emit('unlocked');
+                        console.log("Token refreshed");
                         console.log(keycloak.token);
                     } else {
                         console.log('Token not refreshed, valid for '
                             + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
                     }
-                }).error(() => {
+                }).catch(() => {
                     console.error("Refresh token error");
                 });
             });
 
-        }, 60000)
+        }, 60000);
 
         // setInterval(() =>{
         //     keycloak.updateToken(70).success((refreshed)=>{

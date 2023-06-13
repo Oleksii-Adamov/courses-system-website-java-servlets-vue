@@ -22,13 +22,27 @@ public class UserIdentificationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String authorizationHeader = httpRequest.getHeader("Authorization");
-        String token = authorizationHeader.substring("Bearer ".length());
-        final DecodedJWT jwt = JWT.decode(token);
-        logger.info(jwt.getHeader());
-        logger.info(jwt.getPayload());
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            String authorizationHeader = httpRequest.getHeader("Authorization");
+            String token = authorizationHeader.substring("Bearer ".length());
+            try {
+                final DecodedJWT jwt = JWT.decode(token);
+                logger.info(jwt.getClaim("sub"));
+                logger.info(jwt.getClaim("name"));
+                httpRequest.setAttribute("userId", jwt.getClaim("sub").asString());
+                httpRequest.setAttribute("fullName", jwt.getClaim("name").asString());
+                chain.doFilter(httpRequest, httpResponse);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                httpResponse.sendError(401, "Invalid access token");
+            }
+        }
+        else {
+            logger.warn("ValidateJWTAccessTokenFilter can filter only http request and response");
+            chain.doFilter(request, response);
+        }
     }
 
     @Override
