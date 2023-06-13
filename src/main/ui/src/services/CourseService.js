@@ -1,13 +1,8 @@
-import {authorizationHeaders} from "@/authUtils";
+import getRequest from "@/services/getRequest";
 
 export async function getStudentCourses() {
-    const response = await fetch('/api/courses/student-courses', {method: 'GET', headers: await authorizationHeaders()});
-    console.log(response.status);
-    // response.text().then(text => { console.log(text) });
-    return response.json();
+    return getRequest('/api/courses/student-courses');
 }
 export async function getTeacherCourses() {
-    const response = await fetch('/api/courses/teacher-courses', {method: 'GET', headers: await authorizationHeaders()});
-    console.log(response.status);
-    return response.json();
+    return getRequest('/api/courses/teacher-courses');
 }

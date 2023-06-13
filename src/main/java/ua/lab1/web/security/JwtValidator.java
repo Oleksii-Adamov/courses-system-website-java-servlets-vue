@@ -33,23 +33,16 @@ public class JwtValidator {
 
     public void validate(String token) throws JWTDecodeException, JwkException, MalformedURLException, InvalidParameterException {
         try {
-            System.out.println("validate");
             final DecodedJWT jwt = JWT.decode(token);
-            System.out.println("decoded");
             if (!allowedIssuers.contains(jwt.getIssuer())) {
                 throw new InvalidParameterException(String.format("Unknown Issuer %s", jwt.getIssuer()));
             }
-            System.out.println("allowedIssuer");
             RSAPublicKey publicKey = loadPublicKey(jwt);
-            System.out.println("publicKey");
             Algorithm algorithm = Algorithm.RSA256(publicKey, null);
-            System.out.println("RSA256");
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer(jwt.getIssuer())
                     .build();
-            System.out.println("verifier");
             verifier.verify(token);
-            System.out.println("verify");
         } catch (Exception e) {
             e.printStackTrace();
         }
