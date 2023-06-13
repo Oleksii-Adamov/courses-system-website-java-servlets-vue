@@ -34,7 +34,6 @@ public class ValidateJWTAccessTokenFilter implements Filter {
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 httpResponse.sendError(401, "Invalid Authorization header structure");
             } else {
-                //String token = authorizationHeader.replace("Bearer ", "");
                 String token = authorizationHeader.substring("Bearer ".length());
                 logger.info(token);
                 try {
