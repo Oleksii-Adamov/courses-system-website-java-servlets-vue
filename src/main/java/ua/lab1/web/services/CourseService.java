@@ -5,8 +5,8 @@ import ua.lab1.web.database.TransactionFactory;
 import ua.lab1.web.enitities.Course;
 import ua.lab1.web.enitities.Student;
 import ua.lab1.web.exceptions.CourseDAOException;
-import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
 import ua.lab1.web.exceptions.TransactionException;
+import ua.lab1.web.supplementary_entities.StudentGrade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -61,5 +61,42 @@ public class CourseService {
             throw e;
         }
         TransactionFactory.getInstance().endTransaction();
+    }
+
+    public List<Student> getCourseStudents(Integer courseId) throws SQLException, TransactionException {
+        List<Student> students;
+        TransactionFactory.getInstance().beginTransaction();
+        try {
+            students = DAOFactory.getInstance().getCourseDAO().getStudents(courseId);
+        } catch (Exception e) {
+            TransactionFactory.getInstance().rollbackTransaction();
+            throw e;
+        }
+        TransactionFactory.getInstance().endTransaction();
+        return students;
+    }
+
+    public void gradeStudent(Integer courseId, String studentUserId, Integer grade, String teacherResponse) throws SQLException, TransactionException {
+        TransactionFactory.getInstance().beginTransaction();
+        try {
+            DAOFactory.getInstance().getCourseDAO().gradeStudent(courseId, studentUserId, grade, teacherResponse);
+        } catch (Exception e) {
+            TransactionFactory.getInstance().rollbackTransaction();
+            throw e;
+        }
+        TransactionFactory.getInstance().endTransaction();
+    }
+
+    public StudentGrade getStudentGrade(String studentUserId, Integer courseId) throws SQLException, TransactionException {
+        StudentGrade studentGrade;
+        TransactionFactory.getInstance().beginTransaction();
+        try {
+            studentGrade = DAOFactory.getInstance().getStudentDAO().getStudentGrade(studentUserId, courseId);
+        } catch (Exception e) {
+            TransactionFactory.getInstance().rollbackTransaction();
+            throw e;
+        }
+        TransactionFactory.getInstance().endTransaction();
+        return studentGrade;
     }
 }

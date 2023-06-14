@@ -3,6 +3,7 @@ package ua.lab1.web.dao.impl;
 import ua.lab1.web.dao.CourseDAO;
 import ua.lab1.web.database.TransactionFactory;
 import ua.lab1.web.enitities.Course;
+import ua.lab1.web.enitities.Student;
 import ua.lab1.web.exceptions.CourseDAOException;
 
 import java.sql.PreparedStatement;
@@ -86,4 +87,31 @@ public class CourseDAOImpl implements CourseDAO {
         return courses;
     }
 
+    public void gradeStudent(Integer courseId, String studentUserId, Integer grade, String teacherResponse) throws SQLException {
+        PreparedStatement preparedStatement = TransactionFactory.getInstance().getConnection()
+                .preparedStatement("UPDATE public.\"STUDENTS_COURSES\" SET grade = ?, teacher_response = ? " +
+                                "WHERE students_user_id = ? AND courses_id = ?;");
+        preparedStatement.setInt(1, grade);
+        preparedStatement.setString(2, teacherResponse);
+        preparedStatement.setString(3, studentUserId);
+        preparedStatement.setInt(4, courseId);
+        preparedStatement.execute();
+    }
+
+    public List<Student> getStudents(Integer courseId) throws SQLException {
+        PreparedStatement preparedStatement = TransactionFactory.getInstance().getConnection()
+                .preparedStatement("SELECT s.user_id, s.full_name FROM public.\"STUDENTS\" s " +
+                        "INNER JOIN public.\"STUDENTS_COURSES\" sc ON s.user_id = sc.students_user_id " +
+                        "WHERE sc.courses_id = ?");
+        preparedStatement.setInt(1, courseId);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Student> students = new ArrayList<>();
+        while (rs.next()) {
+            Student student = new Student();
+            student.setUserId(rs.getString(1));
+            student.setFullName(rs.getString(2));
+            students.add(student);
+        }
+        return students;
+    }
 }

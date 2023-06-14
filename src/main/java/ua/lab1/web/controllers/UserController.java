@@ -1,7 +1,10 @@
 package ua.lab1.web.controllers;
 
 import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
+import ua.lab1.web.exceptions.UserValidatorException;
 import ua.lab1.web.services.UserService;
+import ua.lab1.web.validators.CourseGradeValidator;
+import ua.lab1.web.validators.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,7 @@ import java.sql.SQLException;
 public class UserController extends AbstractController {
 
     private static final UserService userService = new UserService();
+    private static final UserValidator userValidator = new UserValidator();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
@@ -28,39 +32,36 @@ public class UserController extends AbstractController {
                 if (!("Teacher".equals(role) || "Student".equals(role))) {
                     logger.info("Invalid parameter role");
                     resp.sendError(400, "Invalid parameter role");
+                    return;
                 }
-                else if (userId == null || userId.length() != 36 || fullName == null) {
-                    logger.info("Something wrong with userId or fullName");
-                    System.out.println(userId == null);
-                    System.out.println(userId.length());
-                    System.out.println(userId.length() != 36);
-                    System.out.println(fullName == null);
-                    resp.sendError(500, "Something wrong with userId or fullName");
+                try {
+                    userValidator.validateUserId(userId);
+                    userValidator.validateFullName(fullName);
+                } catch (UserValidatorException e) {
+                    logger.info(e.getMessage());
+                    resp.sendError(400, e.getMessage());
+                    return;
+                }
+
+                boolean success = true;
+                try {
+                    System.out.println("calling userService");
+                    userService.addRole(userId, fullName, role);
+                } catch (KeycloakSecurityServiceException | SQLException e) {
+                    logger.error(e.getMessage());
+                    success = false;
+                }
+
+                if (success) {
+                    logger.info("added role to user " + userId);
+                    resp.setStatus(200);
+                    this.responseOut.flush();
                 }
                 else {
-                    boolean success = true;
-                    try {
-                        System.out.println("calling userService");
-                        userService.addRole(userId, fullName, role);
-                    } catch (KeycloakSecurityServiceException | SQLException e) {
-                        logger.error(e.getMessage());
-                        success = false;
-                    }
-
-                    if (success) {
-                        logger.info("added role to user " + userId);
-//                        resp.sendRedirect("http://localhost:8081/");
-                        resp.setStatus(200);
-                        this.responseOut.flush();
-                    }
-                    else {
-                        logger.error("Error when adding role to user " + userId);
-                        resp.setContentType("text/html");
-                        resp.sendError(500, "Error when adding role to user");
-                    }
-
+                    logger.error("Error when adding role to user " + userId);
+                    resp.setContentType("text/html");
+                    resp.sendError(500, "Error when adding role to user");
                 }
-
             }
         } catch (IOException e) {
             logger.error(e.getMessage());

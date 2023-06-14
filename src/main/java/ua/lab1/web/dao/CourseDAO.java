@@ -1,6 +1,7 @@
 package ua.lab1.web.dao;
 
 import ua.lab1.web.enitities.Course;
+import ua.lab1.web.enitities.Student;
 import ua.lab1.web.exceptions.CourseDAOException;
 
 import java.sql.SQLException;
@@ -12,4 +13,8 @@ public interface CourseDAO {
     List<Course> getStudentCourses(String studentUserId) throws SQLException;
 
     Course getById(Integer id) throws SQLException;
+
+    void gradeStudent(Integer courseId, String studentUserId, Integer grade, String teacherResponse) throws SQLException;
+
+    List<Student> getStudents(Integer courseId) throws SQLException;
 }
