@@ -41,6 +41,7 @@ export default [
     {
         path: '/grade-student',
         name: 'grade-student',
-        component: GradeStudentPage
+        component: GradeStudentPage,
+        props: true,
     }
 ]

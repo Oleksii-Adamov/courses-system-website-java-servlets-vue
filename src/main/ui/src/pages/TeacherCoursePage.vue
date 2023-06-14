@@ -7,7 +7,7 @@
     <h2>Students:</h2>
     <ul>
       <li v-for="item in this.students" :key="item.userId">
-        <router-link :to="{ name: 'grade-student', params: { studentUserId: item.userId, studentFullName: item.fullName, courseName: name, courseMaxGrade: maxGrade} }"> {{ item.fullName }} </router-link>
+        <router-link :to="{ name: 'grade-student', params: { studentUserId: item.userId, studentFullName: item.fullName, courseId: id, courseName: name, courseMaxGrade: maxGrade} }"> {{ item.fullName }} </router-link>
       </li>
     </ul>
   </div>
