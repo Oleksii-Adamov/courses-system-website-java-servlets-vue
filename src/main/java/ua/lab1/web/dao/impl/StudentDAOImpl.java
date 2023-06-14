@@ -48,8 +48,8 @@ public class StudentDAOImpl implements StudentDAO {
     public StudentGrade getStudentGrade(String studentUserId, Integer courseId) throws SQLException {
         PreparedStatement preparedStatement = TransactionFactory.getInstance().getConnection()
                 .preparedStatement("SELECT sc.grade, sc.teacher_response, c.max_grade FROM public.\"COURSES\" c " +
-                        "INNER JOIN public.\"STUDENTS_COURSES\" sc ON c.id = sc.courses_id" +
-                        "WHERE sc.students_user_id = ? AND c.id = courseId");
+                        "INNER JOIN public.\"STUDENTS_COURSES\" sc ON c.id = sc.courses_id " +
+                        "WHERE sc.students_user_id = ? AND c.id = ?");
         preparedStatement.setString(1, studentUserId);
         preparedStatement.setInt(2, courseId);
         ResultSet rs = preparedStatement.executeQuery();

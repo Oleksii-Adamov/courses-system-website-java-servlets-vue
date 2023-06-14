@@ -10,3 +10,7 @@ export async function getTeacherCourses() {
 export async function getCourseStudents(courseId) {
     return getRequest('/api/courses/course-students?courseId='+courseId);
 }
+
+export async function getStudentGrade(courseId) {
+    return getRequest('/api/courses/student-grade?courseId='+courseId);
+}

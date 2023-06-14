@@ -6,6 +6,7 @@ import CreateCoursePage from "@/pages/CreateCoursePage";
 import JoinCoursePage from "@/pages/JoinCoursePage";
 import TeacherCoursePage from "@/pages/TeacherCoursePage";
 import GradeStudentPage from "@/pages/GradeStudentPage";
+import StudentCourseGradePage from "@/pages/StudentCourseGradePage";
 
 export default [
     {
@@ -42,6 +43,12 @@ export default [
         path: '/grade-student',
         name: 'grade-student',
         component: GradeStudentPage,
+        props: true,
+    },
+    {
+        path: '/student-courses/:id',
+        name: 'student-course',
+        component: StudentCourseGradePage,
         props: true,
     }
 ]

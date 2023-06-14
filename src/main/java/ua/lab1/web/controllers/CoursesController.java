@@ -47,10 +47,8 @@ public class CoursesController extends AbstractController {
                 this.responseOut.print(jsonResponse);
             }
             else if (getMapping("/student-grade")) {
-                String studentUserId = req.getParameter("studentUserId");
                 Integer courseId;
                 try {
-                    userValidator.validateUserId(studentUserId);
                     courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
                 }
                 catch (CourseValidatorException | UserValidatorException e) {
@@ -58,7 +56,7 @@ public class CoursesController extends AbstractController {
                     resp.sendError(400, e.getMessage());
                     return;
                 }
-                jsonResponse = new Gson().toJson(courseService.getStudentGrade(studentUserId, courseId));
+                jsonResponse = new Gson().toJson(courseService.getStudentGrade(userId, courseId));
                 this.responseOut.print(jsonResponse);
             }
             else {
