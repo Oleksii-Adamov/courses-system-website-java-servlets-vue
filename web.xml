@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>CoursesController</servlet-name>
+    <servlet-class>ua.lab1.web.controllers.CoursesController</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>ua.lab1.web.controllers.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CoursesController</servlet-name>
+    <url-pattern>/api/courses/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/api/user/*</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>ValidateJWTAccessTokenFilter</filter-name>
+    <filter-class>ua.lab1.web.filters.ValidateJWTAccessTokenFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ValidateJWTAccessTokenFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>UserIdentificationFilter</filter-name>
+    <filter-class>ua.lab1.web.filters.UserIdentificationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>UserIdentificationFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+</web-app>
