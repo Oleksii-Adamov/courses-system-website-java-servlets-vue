@@ -39,9 +39,7 @@ public class ValidateJWTAccessTokenFilter implements Filter {
                 }
                 catch (Exception e) {
                     logger.error(e.getMessage());
-                    System.out.println("Sending error");
                     httpResponse.sendError(401, e.getMessage());
-                    System.out.println("End of catch");
                 }
             }
         }
