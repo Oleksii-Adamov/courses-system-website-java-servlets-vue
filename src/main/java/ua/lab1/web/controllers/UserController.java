@@ -3,7 +3,6 @@ package ua.lab1.web.controllers;
 import ua.lab1.web.exceptions.KeycloakSecurityServiceException;
 import ua.lab1.web.exceptions.UserValidatorException;
 import ua.lab1.web.services.UserService;
-import ua.lab1.web.validators.CourseGradeValidator;
 import ua.lab1.web.validators.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +21,8 @@ public class UserController extends AbstractController {
             if (getMapping("/add-role")) {
                 logger.info("trying to change role");
                 String role =  req.getParameter("role");
-                System.out.println(role);
-                //String userId = req.getParameter("userId");
                 String userId = (String) req.getAttribute("userId");
-                System.out.println(userId);
                 String fullName = (String) req.getAttribute("fullName");
-                System.out.println(fullName);
                 // validation
                 if (!("Teacher".equals(role) || "Student".equals(role))) {
                     logger.info("Invalid parameter role");
@@ -45,7 +40,6 @@ public class UserController extends AbstractController {
 
                 boolean success = true;
                 try {
-                    System.out.println("calling userService");
                     userService.addRole(userId, fullName, role);
                 } catch (KeycloakSecurityServiceException | SQLException e) {
                     logger.error(e.getMessage());

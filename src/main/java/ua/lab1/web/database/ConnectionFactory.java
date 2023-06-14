@@ -19,11 +19,6 @@ public class ConnectionFactory {
         source.setUser("postgres");
         source.setPassword("root");
         source.setMaxConnections(MAX_CONNECTIONS);
-//        try {
-//            new InitialContext().rebind("DataSource", source);
-//        } catch (NamingException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     public static ConnectionFactory instance(){

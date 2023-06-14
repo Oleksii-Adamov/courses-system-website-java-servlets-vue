@@ -35,7 +35,6 @@ export default {
         if (this.grade !== "" && this.teacherResponse !== "") {
           postRequest('/api/courses/grade-student?studentUserId=' + this.studentUserId + '&courseId=' + this.courseId
               + '&grade=' + this.grade + '&teacherResponse=' + this.teacherResponse, () => {
-            //this.$router.push({ path: '/teacher-courses'});
             this.$router.push({ name: 'teacher-course', params: { id: this.courseId, name: this.courseName, maxGrade: this.courseMaxGrade} });
           });
         } else {

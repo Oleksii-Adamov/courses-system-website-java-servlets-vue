@@ -55,7 +55,6 @@ public class StudentDAOImpl implements StudentDAO {
         ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
             StudentGrade studentGrade = new StudentGrade();
-            // rs.wasNull() - option
             Object gradeObj = rs.getObject(1);
             if (gradeObj == null) {
                 studentGrade.setGrade(null);

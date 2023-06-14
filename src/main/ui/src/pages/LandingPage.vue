@@ -5,12 +5,10 @@
 <script>
 import jwt_decode from "jwt-decode";
 import keycloak from "../main";
-//import {forciblyRefreshToken} from "@/authUtils";
 import {bus, whenTokenNotUndefined} from "@/authUtils";
 export default {
   name: "LandingPage",
   mounted() {
-    //forciblyRefreshToken();
     whenTokenNotUndefined().then(() => {
       localStorage.setItem("user-token", undefined);
       keycloak.updateToken(-1).success((refreshed) => {
@@ -29,13 +27,11 @@ export default {
           bus.emit('unlocked');
         } else {
           console.error('Token not forcibly refreshed');
-          //this.$router.push({path: '/'});
           window.location.reload();
         }
 
       }).error(() => {
         console.error("Force refresh token error");
-        //this.$router.push({path: '/'});
         window.location.reload();
       });
     })

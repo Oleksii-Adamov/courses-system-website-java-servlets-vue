@@ -30,13 +30,6 @@ public abstract class AbstractController extends HttpServlet {
     protected boolean getMapping(String regex) {
         String pathInfo = req.getPathInfo();
         if (Pattern.matches(regex, pathInfo)) {
-//            Pattern pattern = Pattern.compile(regex);
-//            Matcher matcher = pattern.matcher(pathInfo);
-//            while(matcher.find()) {
-//                for (int i = 1; i <= matcher.groupCount(); i++) {
-//                    pathParameters.add(matcher.group(i));
-//                }
-//            }
             return resp.getStatus() >= 200 && resp.getStatus() <= 299;
         }
         return false;

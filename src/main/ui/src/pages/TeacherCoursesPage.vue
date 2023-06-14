@@ -2,18 +2,24 @@
   <div>
     <TeacherNavigation></TeacherNavigation>
     <div>
-      <CoursesItem :courses="courses"/>
+      <div class="container">
+        <h2>Your courses</h2>
+        <ul>
+          <li v-for="item in courses" :key="item.id">
+            <router-link :to="{ name: 'teacher-course', params: { id: item.id, name: item.name, maxGrade: item.maxGrade} }"> {{ item.name }} </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {getTeacherCourses} from "@/services/CourseService";
-import CoursesItem from "@/components/CoursesItem";
 import TeacherNavigation from "@/components/TeacherNavigation";
 export default {
   name: "TeacherCoursesPage",
-  components: {TeacherNavigation, CoursesItem},
+  components: {TeacherNavigation},
   data() {
     return {
       courses: []

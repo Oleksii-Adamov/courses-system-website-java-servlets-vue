@@ -2,7 +2,6 @@ package ua.lab1.web.validators;
 
 import ua.lab1.web.exceptions.CourseValidatorException;
 
-import java.io.IOException;
 
 public class CourseValidator {
     public Integer getValidatedCourseId(String courseIdStr) throws CourseValidatorException {

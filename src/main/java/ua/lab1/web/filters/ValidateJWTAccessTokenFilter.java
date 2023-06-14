@@ -1,7 +1,5 @@
 package ua.lab1.web.filters;
 
-import com.auth0.jwk.JwkException;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ua.lab1.web.security.JwtValidator;
@@ -10,8 +8,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.security.InvalidParameterException;
 
 public class ValidateJWTAccessTokenFilter implements Filter {
     private Logger logger;
@@ -47,18 +43,6 @@ public class ValidateJWTAccessTokenFilter implements Filter {
                     httpResponse.sendError(401, e.getMessage());
                     System.out.println("End of catch");
                 }
-//                catch (JWTDecodeException e) {
-//                    logger.error("Invalid access token structure");
-//                    httpResponse.sendError(401, e.getMessage());
-//                }
-//                catch (InvalidParameterException e) {
-//                    logger.error(e.getMessage());
-//                    httpResponse.sendError(401, e.getMessage());
-//                }
-//                catch (JwkException | MalformedURLException e) {
-//                    logger.error(e.getMessage());
-//                    httpResponse.sendError(401, "Invalid access token");
-//                }
             }
         }
         else {

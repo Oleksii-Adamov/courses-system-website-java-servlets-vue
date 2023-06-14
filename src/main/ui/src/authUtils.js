@@ -1,4 +1,3 @@
-// import jwt_decode from "jwt-decode";
 import keycloak from "./main";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -11,7 +10,7 @@ const EventEmitter = require('events');
 export const bus = new EventEmitter();
 
 export function initKeycloak() {
-    keycloak.init({ onLoad: 'login-required' }).success((auth) =>{
+    keycloak.init({ onLoad: 'login-required' }).then((auth) =>{
 
         if(!auth) {
             window.location.reload();
@@ -57,7 +56,7 @@ export function initKeycloak() {
 
         }, 60000);
 
-    }).error(() =>{
+    }).catch(() =>{
         console.error("Authentication Failed");
     });
 }
@@ -69,7 +68,6 @@ export async function whenTokenNotUndefined() {
 }
 export async function authorizationHeaders() {
     let headers = new Headers();
-    // forciblyRefreshToken();
     await whenTokenNotUndefined();
     headers.append("Authorization", "Bearer " + localStorage.getItem('user-token'));
     console.log("Sending ", localStorage.getItem('user-token'));
