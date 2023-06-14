@@ -27,7 +27,7 @@ public abstract class AbstractController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
     }
 
-    protected boolean getMapping(String regex) {
+    protected boolean requestMapping(String regex) {
         String pathInfo = req.getPathInfo();
         if (Pattern.matches(regex, pathInfo)) {
             return resp.getStatus() >= 200 && resp.getStatus() <= 299;

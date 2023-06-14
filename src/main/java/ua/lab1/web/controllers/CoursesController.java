@@ -25,15 +25,15 @@ public class CoursesController extends AbstractController {
             processRequest(req, resp);
             String userId = (String) req.getAttribute("userId");
             String jsonResponse = "";
-            if (getMapping("/student-courses")) {
+            if (requestMapping("/student-courses")) {
                 jsonResponse = new Gson().toJson(courseService.getStudentCourses(userId));
                 this.responseOut.print(jsonResponse);
             }
-            else if (getMapping("/teacher-courses")) {
+            else if (requestMapping("/teacher-courses")) {
                 jsonResponse = new Gson().toJson(courseService.getTeacherCourses(userId));
                 this.responseOut.print(jsonResponse);
             }
-            else if (getMapping("/course-students")) {
+            else if (requestMapping("/course-students")) {
                 Integer courseId;
                 try {
                     courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
@@ -46,7 +46,7 @@ public class CoursesController extends AbstractController {
                 jsonResponse = new Gson().toJson(courseService.getCourseStudents(courseId));
                 this.responseOut.print(jsonResponse);
             }
-            else if (getMapping("/student-grade")) {
+            else if (requestMapping("/student-grade")) {
                 Integer courseId;
                 try {
                     courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
@@ -77,7 +77,7 @@ public class CoursesController extends AbstractController {
         try {
             processRequest(req, resp);
             String userId = (String) req.getAttribute("userId");
-            if (getMapping("/create")) {
+            if (requestMapping("/create")) {
                 String name = req.getParameter("name");
                 Integer maxGrade;
                 try {
@@ -91,7 +91,7 @@ public class CoursesController extends AbstractController {
                 Integer createdId = courseService.create(name, userId, maxGrade);
                 this.responseOut.print(String.format("{id: %d}", createdId));
             }
-            else if (getMapping("/join")) {
+            else if (requestMapping("/join")) {
                 Integer courseId;
                 try {
                     courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
@@ -103,7 +103,7 @@ public class CoursesController extends AbstractController {
                 }
                 courseService.joinCourse(userId, courseId);
             }
-            else if (getMapping("/grade-student")) {
+            else if (requestMapping("/grade-student")) {
                 String studentUserId = req.getParameter("studentUserId");
                 Integer courseId;
                 Integer grade;

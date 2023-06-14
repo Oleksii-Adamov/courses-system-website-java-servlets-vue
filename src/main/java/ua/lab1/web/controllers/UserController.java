@@ -18,7 +18,7 @@ public class UserController extends AbstractController {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             processRequest(req, resp);
-            if (getMapping("/add-role")) {
+            if (requestMapping("/add-role")) {
                 logger.info("trying to change role");
                 String role =  req.getParameter("role");
                 String userId = (String) req.getAttribute("userId");
