@@ -4,6 +4,8 @@ import StudentCoursesPage from "@/pages/StudentCoursesPage";
 import TeacherCoursesPage from "@/pages/TeacherCoursesPage";
 import CreateCoursePage from "@/pages/CreateCoursePage";
 import JoinCoursePage from "@/pages/JoinCoursePage";
+import TeacherCoursePage from "@/pages/TeacherCoursePage";
+import GradeStudentPage from "@/pages/GradeStudentPage";
 
 export default [
     {
@@ -23,11 +25,22 @@ export default [
         component: TeacherCoursesPage
     },
     {
+        path: '/teacher-courses/:id',
+        name: 'teacher-course',
+        component: TeacherCoursePage,
+        props: true,
+    },
+    {
         path: '/create-course',
         component: CreateCoursePage
     },
     {
         path: '/join-course',
         component: JoinCoursePage
+    },
+    {
+        path: '/grade-student',
+        name: 'grade-student',
+        component: GradeStudentPage
     }
 ]

@@ -7,13 +7,13 @@ import java.io.IOException;
 public class CourseValidator {
     public Integer getValidatedCourseId(String courseIdStr) throws CourseValidatorException {
         if (courseIdStr == null) {
-            throw new CourseValidatorException("No parameter id");
+            throw new CourseValidatorException("No parameter courseId");
         }
         Integer courseId;
         try {
             courseId = Integer.parseInt(courseIdStr);
         } catch (NumberFormatException e) {
-            throw new CourseValidatorException("Invalid parameter id");
+            throw new CourseValidatorException("Invalid parameter courseId");
         }
         return courseId;
     }

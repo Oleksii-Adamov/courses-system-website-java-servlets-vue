@@ -33,10 +33,10 @@ public class CoursesController extends AbstractController {
                 jsonResponse = new Gson().toJson(courseService.getTeacherCourses(userId));
                 this.responseOut.print(jsonResponse);
             }
-            else if (getMapping("/students")) {
+            else if (getMapping("/course-students")) {
                 Integer courseId;
                 try {
-                    courseId = courseValidator.getValidatedCourseId(req.getParameter("id"));
+                    courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
                 }
                 catch (CourseValidatorException e) {
                     logger.info(e.getMessage());
@@ -51,7 +51,7 @@ public class CoursesController extends AbstractController {
                 Integer courseId;
                 try {
                     userValidator.validateUserId(studentUserId);
-                    courseId = courseValidator.getValidatedCourseId(req.getParameter("id"));
+                    courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
                 }
                 catch (CourseValidatorException | UserValidatorException e) {
                     logger.info(e.getMessage());
@@ -96,7 +96,7 @@ public class CoursesController extends AbstractController {
             else if (getMapping("/join")) {
                 Integer courseId;
                 try {
-                    courseId = courseValidator.getValidatedCourseId(req.getParameter("id"));
+                    courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
                 }
                 catch (CourseValidatorException e) {
                     logger.info(e.getMessage());
@@ -112,7 +112,7 @@ public class CoursesController extends AbstractController {
                 String teacherResponse = req.getParameter("teacherResponse");
                 try {
                     userValidator.validateUserId(studentUserId);
-                    courseId = courseValidator.getValidatedCourseId(req.getParameter("id"));
+                    courseId = courseValidator.getValidatedCourseId(req.getParameter("courseId"));
                     grade = courseGradeValidator.getValidatedGrade(req.getParameter("grade"));
                     courseGradeValidator.validateTeacherResponse(teacherResponse);
                 }

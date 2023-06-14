@@ -19,11 +19,11 @@ export default {
   methods: {
     submitJoinCourse() {
       if (this.courseId !== "") {
-        postRequest('/api/courses/join?id=' + this.courseId, () => {
+        postRequest('/api/courses/join?courseId=' + this.courseId, () => {
           this.$router.push({path: '/student-courses'});
         });
       } else {
-        alert("All field must be field");
+        alert("All field must be filled");
       }
     }
   }

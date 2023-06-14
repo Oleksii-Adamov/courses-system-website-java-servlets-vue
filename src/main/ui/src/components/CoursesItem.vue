@@ -1,18 +1,11 @@
 <template>
     <div class="container">
-        <h2>Courses</h2>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in courses" :key="item.id">
-                  <td>{{ item.name }}</td>
-              </tr>
-            </tbody>
-        </table>
+        <h2>Your courses</h2>
+        <ul>
+          <li v-for="item in courses" :key="item.id">
+            <router-link :to="{ name: 'teacher-course', params: { id: item.id, name: item.name, maxGrade: item.maxGrade} }"> {{ item.name }} </router-link>
+          </li>
+        </ul>
     </div>
 </template>
 
