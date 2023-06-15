@@ -40,7 +40,7 @@ public class UserIdentificationFilter implements Filter {
             }
         }
         else {
-            logger.warn("ValidateJWTAccessTokenFilter can filter only http request and response");
+            logger.warn("UserIdentificationFilter can filter only http request and response");
             chain.doFilter(request, response);
         }
     }
