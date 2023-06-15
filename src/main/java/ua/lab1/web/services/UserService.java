@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class UserService {
     private static final SecurityService securityService = new KeycloakSecurityService();
+
     public void addRole(String userId, String fullName, String role) throws SQLException, KeycloakSecurityServiceException, TransactionException {
         if ("Teacher".equals(role)) {
             TransactionFactory.getInstance().beginTransaction();

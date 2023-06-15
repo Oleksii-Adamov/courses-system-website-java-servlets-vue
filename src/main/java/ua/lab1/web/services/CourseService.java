@@ -6,7 +6,7 @@ import ua.lab1.web.enitities.Course;
 import ua.lab1.web.enitities.Student;
 import ua.lab1.web.exceptions.CourseDAOException;
 import ua.lab1.web.exceptions.TransactionException;
-import ua.lab1.web.supplementary_entities.StudentGrade;
+import ua.lab1.web.dto.StudentGradeDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -87,16 +87,16 @@ public class CourseService {
         TransactionFactory.getInstance().endTransaction();
     }
 
-    public StudentGrade getStudentGrade(String studentUserId, Integer courseId) throws SQLException, TransactionException {
-        StudentGrade studentGrade;
+    public StudentGradeDTO getStudentGrade(String studentUserId, Integer courseId) throws SQLException, TransactionException {
+        StudentGradeDTO studentGradeDTO;
         TransactionFactory.getInstance().beginTransaction();
         try {
-            studentGrade = DAOFactory.getInstance().getStudentDAO().getStudentGrade(studentUserId, courseId);
+            studentGradeDTO = DAOFactory.getInstance().getStudentDAO().getStudentGrade(studentUserId, courseId);
         } catch (Exception e) {
             TransactionFactory.getInstance().rollbackTransaction();
             throw e;
         }
         TransactionFactory.getInstance().endTransaction();
-        return studentGrade;
+        return studentGradeDTO;
     }
 }

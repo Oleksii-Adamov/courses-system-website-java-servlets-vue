@@ -1,9 +1,6 @@
 package ua.lab1.web.database;
 
 import org.postgresql.jdbc3.Jdbc3PoolingDataSource;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 

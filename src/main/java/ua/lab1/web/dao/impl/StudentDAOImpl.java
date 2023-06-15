@@ -3,7 +3,7 @@ package ua.lab1.web.dao.impl;
 import ua.lab1.web.dao.StudentDAO;
 import ua.lab1.web.database.TransactionFactory;
 import ua.lab1.web.enitities.Student;
-import ua.lab1.web.supplementary_entities.StudentGrade;
+import ua.lab1.web.dto.StudentGradeDTO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,7 +45,7 @@ public class StudentDAOImpl implements StudentDAO {
         }
     }
 
-    public StudentGrade getStudentGrade(String studentUserId, Integer courseId) throws SQLException {
+    public StudentGradeDTO getStudentGrade(String studentUserId, Integer courseId) throws SQLException {
         PreparedStatement preparedStatement = TransactionFactory.getInstance().getConnection()
                 .preparedStatement("SELECT sc.grade, sc.teacher_response, c.max_grade FROM public.\"COURSES\" c " +
                         "INNER JOIN public.\"STUDENTS_COURSES\" sc ON c.id = sc.courses_id " +
@@ -54,17 +54,17 @@ public class StudentDAOImpl implements StudentDAO {
         preparedStatement.setInt(2, courseId);
         ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
-            StudentGrade studentGrade = new StudentGrade();
+            StudentGradeDTO studentGradeDTO = new StudentGradeDTO();
             Object gradeObj = rs.getObject(1);
             if (gradeObj == null) {
-                studentGrade.setGrade(null);
+                studentGradeDTO.setGrade(null);
             }
             else {
-                studentGrade.setGrade((Integer) gradeObj);
+                studentGradeDTO.setGrade((Integer) gradeObj);
             }
-            studentGrade.setTeacherResponse(rs.getString(2));
-            studentGrade.setMaxGrade(rs.getInt(3));
-            return studentGrade;
+            studentGradeDTO.setTeacherResponse(rs.getString(2));
+            studentGradeDTO.setMaxGrade(rs.getInt(3));
+            return studentGradeDTO;
         }
         else {
             return null;

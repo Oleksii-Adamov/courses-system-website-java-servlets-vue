@@ -1,13 +1,13 @@
-package ua.lab1.web.supplementary_entities;
+package ua.lab1.web.dto;
 
 import ua.lab1.web.enitities.Entity;
 
-public class StudentGrade implements Entity {
+public class StudentGradeDTO implements Entity {
     private Integer grade;
     private String teacherResponse;
     private Integer maxGrade;
 
-    public StudentGrade() {
+    public StudentGradeDTO() {
     }
 
     public Integer getGrade() {

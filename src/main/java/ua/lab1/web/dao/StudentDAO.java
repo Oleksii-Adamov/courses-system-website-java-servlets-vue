@@ -1,7 +1,7 @@
 package ua.lab1.web.dao;
 
 import ua.lab1.web.enitities.Student;
-import ua.lab1.web.supplementary_entities.StudentGrade;
+import ua.lab1.web.dto.StudentGradeDTO;
 
 import java.sql.SQLException;
 
@@ -11,5 +11,5 @@ public interface StudentDAO {
 
     Student getByUserId(String userId) throws SQLException;
 
-    StudentGrade getStudentGrade(String studentUserId, Integer courseId) throws SQLException;
+    StudentGradeDTO getStudentGrade(String studentUserId, Integer courseId) throws SQLException;
 }
