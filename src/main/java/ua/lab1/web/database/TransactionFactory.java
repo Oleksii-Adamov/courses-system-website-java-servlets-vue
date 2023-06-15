@@ -1,6 +1,7 @@
 package ua.lab1.web.database;
 
 import ua.lab1.web.dao.DAOFactory;
+import ua.lab1.web.exceptions.ConnectionPoolException;
 import ua.lab1.web.exceptions.TransactionException;
 
 import java.sql.Connection;
@@ -21,7 +22,7 @@ public class TransactionFactory {
         if(threadLocalTransactionConnection.get() == null){
             Connection con = connectionFactory.getConnection();
             con.setAutoCommit(false);
-            TransactionConnection transactionConnection = new TransactionConnection(con,true);
+            TransactionConnection transactionConnection = new TransactionConnection(con);
             threadLocalTransactionConnection.set(transactionConnection);
         }
     }
@@ -32,7 +33,7 @@ public class TransactionFactory {
         }
         Connection con = connectionFactory.getConnection();
         con.setAutoCommit(false);
-        return new TransactionConnection(con,false);
+        return new TransactionConnection(con);
     }
 
     public void endTransaction() throws SQLException, TransactionException {
@@ -40,32 +41,36 @@ public class TransactionFactory {
             throw new TransactionException("transaction cannot be finished");
         }
         TransactionConnection transactionConnection = threadLocalTransactionConnection.get();
+        Connection connection = transactionConnection.getConnection();
         threadLocalTransactionConnection.set(null);
-        Connection con = transactionConnection.getConnection();
         try {
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
-            con.rollback();
+            connection.rollback();
             throw new TransactionException(e);
         }finally {
-            connectionFactory.releaseConnection(con);
+            try {
+                connectionFactory.releaseConnection(connection);
+            } catch (SQLException | ConnectionPoolException e) {
+                throw new TransactionException(e);
+            }
         }
     }
 
-    public void rollbackTransaction() throws SQLException {
+    public void rollbackTransaction() throws SQLException, ConnectionPoolException {
         if(threadLocalTransactionConnection.get() == null){
             throw new TransactionException("transaction cannot be finished");
         }
         TransactionConnection transactionConnection = threadLocalTransactionConnection.get();
         threadLocalTransactionConnection.set(null);
-        Connection con = transactionConnection.getConnection();
+        Connection connection = transactionConnection.getConnection();
         try {
-            con.rollback();
+            connection.rollback();
         }
         catch (SQLException e) {
             throw new TransactionException(e);
         } finally {
-            connectionFactory.releaseConnection(con);
+            connectionFactory.releaseConnection(connection);
         }
     }
 }

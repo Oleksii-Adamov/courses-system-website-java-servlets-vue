@@ -6,12 +6,9 @@ import java.sql.SQLException;
 
 public class TransactionConnection {
     private final Connection con;
-    private final boolean transactionFlag;
 
-    public TransactionConnection(Connection con, boolean flag){
-
+    public TransactionConnection(Connection con){
         this.con = con;
-        this.transactionFlag = flag;
     }
 
     public PreparedStatement preparedStatement(String sql) throws SQLException {
@@ -24,23 +21,5 @@ public class TransactionConnection {
 
     Connection getConnection() {
         return con;
-    }
-
-    public void commit() throws SQLException {
-        if(!transactionFlag) {
-            con.commit();
-        }
-    }
-
-    public void rollBack() throws SQLException {
-        if(!transactionFlag) {
-            con.rollback();
-        }
-    }
-
-    public void close() throws SQLException {
-        if(!transactionFlag){
-            con.close();
-        }
     }
 }
