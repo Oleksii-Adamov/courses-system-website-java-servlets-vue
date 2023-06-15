@@ -48,7 +48,7 @@ public class TransactionFactory {
             con.rollback();
             throw new TransactionException(e);
         }finally {
-            con.close();
+            connectionFactory.releaseConnection(con);
         }
     }
 
@@ -65,7 +65,7 @@ public class TransactionFactory {
         catch (SQLException e) {
             throw new TransactionException(e);
         } finally {
-            con.close();
+            connectionFactory.releaseConnection(con);
         }
     }
 }
